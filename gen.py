@@ -25,25 +25,25 @@ mod {name}_test {{
 
     #[test]
     fn part_one_sample_test() {{
-        let (input, output) = read_testcase("testcase/day1/part1/sample_in.txt", "testcase/day1/part1/sample_out.txt");
+        let (input, output) = read_testcase("testcase/{name}/part1/sample_in.txt", "testcase/{name}/part1/sample_out.txt");
         assert_eq!(output.trim(), part_one(input));
     }}
 
     #[test]
     fn part_one_real_test() {{
-        let (input, output) = read_testcase("testcase/day1/part1/real_in.txt", "testcase/day1/part1/real_out.txt");
+        let (input, output) = read_testcase("testcase/{name}/part1/real_in.txt", "testcase/{name}/part1/real_out.txt");
         assert_eq!(output.trim(), part_one(input));
     }}
 
     #[test]
     fn part_two_sample_test() {{
-        let (input, output) = read_testcase("testcase/day1/part2/sample_in.txt", "testcase/day1/part2/sample_out.txt");
+        let (input, output) = read_testcase("testcase/{name}/part2/sample_in.txt", "testcase/{name}/part2/sample_out.txt");
         assert_eq!(output.trim(), part_two(input));
     }}
 
     #[test]
     fn part_two_real_test() {{
-        let (input, output) = read_testcase("testcase/day1/part2/real_in.txt", "testcase/day1/part2/real_out.txt");
+        let (input, output) = read_testcase("testcase/{name}/part2/real_in.txt", "testcase/{name}/part2/real_out.txt");
         assert_eq!(output.trim(), part_two(input));
     }}
 }}
