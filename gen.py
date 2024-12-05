@@ -58,6 +58,10 @@ def main():
 
     solution_file_content = solution_template.format(name=filename)
 
+    if os.path.exists(f"src/solution/{filename}.rs"):
+        print("Solution already exists. Exitting")
+        exit(1)
+
     fp = open(f"src/solution/{filename}.rs", 'w')
     fp.write(solution_file_content)
 
