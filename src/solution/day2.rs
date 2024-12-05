@@ -24,7 +24,7 @@ fn part_one(input: String) -> String {
         });
         let input_vec = reports.collect::<Vec<i32>>();
 
-        let mut direction = "";
+        let direction;
         let mut valid = true;
 
         let diff = input_vec[1] - input_vec[0];
@@ -54,7 +54,7 @@ fn part_two(input: String) -> String {
         let input_vec = reports.collect::<Vec<i32>>();
 
         let diff = input_vec[1] - input_vec[0];
-        let mut direction = "";
+        let mut direction;
         let mut valid = true;
         
         if diff > 0 { direction = "increase"; }
@@ -69,14 +69,11 @@ fn part_two(input: String) -> String {
             return;
         }
 
-        valid = true;
-
         for i in 0..input_vec.len() {
             let mut new_vec = input_vec.clone();
             new_vec.remove(i);
             
             valid = true;
-            let mut direction = "";
 
             let diff = new_vec[1] - new_vec[0];
         
