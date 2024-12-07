@@ -13,7 +13,12 @@ fn is_valid(
     }
 
     let num_digit = number_input[cur_idx].to_string().len();
-    
+    let new_num = cur * 10_i64.pow(num_digit as u32) + number_input[cur_idx];
+
+    if concat_allow && is_valid(number_input, new_num, limit, cur_idx + 1, concat_allow) {
+        return true;
+    }
+
     if is_valid(
         number_input,
         cur * number_input[cur_idx],
@@ -24,19 +29,13 @@ fn is_valid(
         return true;
     }
 
-    if is_valid(
+    return is_valid(
         number_input,
         cur + number_input[cur_idx],
         limit,
         cur_idx + 1,
         concat_allow,
-    ) {
-        return true;
-    }
-
-    let new_num = cur * 10_i64.pow(num_digit as u32) + number_input[cur_idx];
-
-    return concat_allow && is_valid(number_input, new_num, limit, cur_idx + 1, concat_allow);
+    );
 }
 
 fn part_one(input: String) -> String {
@@ -61,7 +60,7 @@ fn part_one(input: String) -> String {
 
 fn part_two(input: String) -> String {
     let mut answer: i64 = 0;
-    
+
     input.lines().for_each(|line| {
         let (expected_str, input_number_str) = line.split_once(": ").unwrap();
 
