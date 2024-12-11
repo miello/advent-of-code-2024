@@ -1,51 +1,57 @@
 use std::collections::HashMap;
 
-fn duplicate_and_count(step: u32, cur: &str, memo: &mut HashMap<(String, u32), u64>) -> u64 {
+fn duplicate_and_count(step: u32, cur: u128, memo: &mut HashMap<(u128, u32), u128>) -> u128 {
     if step == 0 {
         return 1
     }
-    if let Some(v) = memo.get(&(cur.to_string(), step)) {
+    if let Some(v) = memo.get(&(cur, step)) {
         return *v;
     }
 
     let mut count_num = 0;
-
-    if cur == "0" {
-        count_num += duplicate_and_count(step - 1, "1", memo);
-    } else if cur.len() % 2 == 0 {
-        let half_way = cur.len() / 2;
-
-        let left_half = cur[0..half_way].parse::<u128>().unwrap().to_string();
-        count_num += duplicate_and_count(step - 1, &left_half, memo);
-        
-        let right_half = cur[half_way..cur.len()].parse::<u128>().unwrap().to_string();
-        count_num += duplicate_and_count(step - 1, &right_half, memo);
-    } else {
-        let num_u64 = cur.parse::<u128>().unwrap() * 2024;
-
-        count_num += duplicate_and_count(step - 1, &num_u64.to_string(), memo);
+    let mut digit = 0;
+    if cur != 0 {
+        digit = cur.ilog10() as u128 + 1;
     }
 
-    memo.insert((cur.to_string(), step), count_num);
+    if cur == 0 {
+        count_num += duplicate_and_count(step - 1,1, memo);
+    } else if digit % 2 == 0 {
+        let half_way = digit / 2;
+        let pow_ten = 10_u128.pow(half_way as u32);
+        
+
+        let left_half = cur % pow_ten;
+        count_num += duplicate_and_count(step - 1, left_half, memo);
+        
+        let right_half = cur / pow_ten;
+        count_num += duplicate_and_count(step - 1, right_half, memo);
+    } else {
+        let num_u128 = cur * 2024;
+
+        count_num += duplicate_and_count(step - 1, num_u128, memo);
+    }
+
+    memo.insert((cur, step), count_num);
 
     count_num
 }
 
 fn part_one(input: String) -> String {
-    let mut count_num: u64 = 0;
-    let mut memo: HashMap<(String, u32), u64> = HashMap::new();
+    let mut count_num: u128 = 0;
+    let mut memo: HashMap<(u128, u32), u128> = HashMap::new();
     input.split(" ").for_each(|num| {
-        count_num += duplicate_and_count(25, num, &mut memo);
+        count_num += duplicate_and_count(25, num.parse::<u128>().unwrap(), &mut memo);
     });
 
     format!("{}", count_num)
 }
 
 fn part_two(input: String) -> String {
-    let mut count_num: u64 = 0;
+    let mut count_num: u128 = 0;
     input.split(" ").for_each(|num| {
-        let mut memo: HashMap<(String, u32), u64> = HashMap::new();
-        count_num += duplicate_and_count(75, num, &mut memo);
+        let mut memo: HashMap<(u128, u32), u128> = HashMap::new();
+        count_num += duplicate_and_count(75, num.parse::<u128>().unwrap(), &mut memo);
     });
 
     format!("{}", count_num)
