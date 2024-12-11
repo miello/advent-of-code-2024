@@ -15,7 +15,7 @@ fn duplicate_and_count(step: u32, cur: u128, memo: &mut HashMap<(u128, u32), u12
     }
 
     if cur == 0 {
-        count_num += duplicate_and_count(step - 1,1, memo);
+        count_num += duplicate_and_count(step - 1, 1, memo);
     } else if digit % 2 == 0 {
         let half_way = digit / 2;
         let pow_ten = 10_u128.pow(half_way as u32);
