@@ -8,29 +8,25 @@ fn duplicate_and_count(step: u32, cur: u128, memo: &mut HashMap<(u128, u32), u12
         return *v;
     }
 
-    let mut count_num = 0;
-    let mut digit = 0;
-    if cur != 0 {
-        digit = cur.ilog10() as u128 + 1;
-    }
+    let digit = match cur {
+        0 => 0,
+        _ => cur.ilog10() as u128 + 1,
+    };
 
-    if cur == 0 {
-        count_num += duplicate_and_count(step - 1, 1, memo);
-    } else if digit % 2 == 0 {
-        let half_way = digit / 2;
-        let pow_ten = 10_u128.pow(half_way as u32);
-        
+    let count_num = match (cur, digit % 2) {
+        (0, _) => duplicate_and_count(step - 1, 1, memo),
+        (_, 0) => {
+            let half_way = digit / 2;
+            let pow_ten = 10_u128.pow(half_way as u32);
+            
 
-        let left_half = cur % pow_ten;
-        count_num += duplicate_and_count(step - 1, left_half, memo);
-        
-        let right_half = cur / pow_ten;
-        count_num += duplicate_and_count(step - 1, right_half, memo);
-    } else {
-        let num_u128 = cur * 2024;
+            let left_half = cur % pow_ten;
+            let right_half = cur / pow_ten;
 
-        count_num += duplicate_and_count(step - 1, num_u128, memo);
-    }
+            duplicate_and_count(step - 1, left_half, memo) + duplicate_and_count(step - 1, right_half, memo)
+        },
+        _ => duplicate_and_count(step - 1, cur * 2024, memo)
+    };
 
     memo.insert((cur, step), count_num);
 
