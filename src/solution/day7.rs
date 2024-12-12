@@ -12,30 +12,24 @@ fn is_valid(
         return cur == limit;
     }
 
-    let num_digit = number_input[cur_idx].to_string().len();
+    let num_digit = number_input[cur_idx].ilog10() + 1;
     let new_num = cur * 10_i64.pow(num_digit as u32) + number_input[cur_idx];
 
-    if concat_allow && is_valid(number_input, new_num, limit, cur_idx + 1, concat_allow) {
-        return true;
-    }
-
-    if is_valid(
-        number_input,
-        cur * number_input[cur_idx],
-        limit,
-        cur_idx + 1,
-        concat_allow,
-    ) {
-        return true;
-    }
-
-    return is_valid(
-        number_input,
-        cur + number_input[cur_idx],
-        limit,
-        cur_idx + 1,
-        concat_allow,
-    );
+    (concat_allow && is_valid(number_input, new_num, limit, cur_idx + 1, concat_allow))
+        || is_valid(
+            number_input,
+            cur * number_input[cur_idx],
+            limit,
+            cur_idx + 1,
+            concat_allow,
+        )
+        || is_valid(
+            number_input,
+            cur + number_input[cur_idx],
+            limit,
+            cur_idx + 1,
+            concat_allow,
+        )
 }
 
 fn part_one(input: String) -> String {
