@@ -1,14 +1,19 @@
 use regex::Regex;
 
 fn solve_machine(x1: i64, y1: i64, x2: i64, y2: i64, x: i64, y: i64) -> Option<i64> {
-    let a = (x * y2 - x2 * y) / (x1 * y2 - x2 * y1);
-    let b = (x * y1 - y * x1) / (x2 * y1 - x1 * y2);
+    let div = x1 * y2 - x2 * y1;
+    if div == 0 {
+        return None;
+    }
+
+    let a = (x * y2 - x2 * y) / (div);
+    let b = (x * y1 - y * x1) / (-div);
 
     if a < 0 || b < 0 {
         return None;
     }
 
-    if a * (x1 * y2 - x2 * y1) != (x * y2 - x2 * y) || b * (x2 * y1 - x1 * y2) != (x * y1 - y * x1)
+    if a * div != (x * y2 - x2 * y) || b * -div != (x * y1 - y * x1)
     {
         return None;
     }
