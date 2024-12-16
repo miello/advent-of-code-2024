@@ -144,7 +144,7 @@ fn part_one(input: String) -> String {
     format!("{}", answer)
 }
 
-fn backtrack_to_end(
+fn backtrack_to_start(
     board_cost: &Vec<Vec<[i64; 4]>>,
     pos: (usize, usize, i8),
     pos_mem: &mut HashSet<(usize, usize)>,
@@ -181,7 +181,7 @@ fn backtrack_to_end(
             if board_cost[x][y][direction as usize] - walk_cost
                 == board_cost[new_x_usize][new_y_usize][new_direction as usize]
             {
-                if backtrack_to_end(board_cost, (new_x_usize, new_y_usize, new_direction), pos_mem) {
+                if backtrack_to_start(board_cost, (new_x_usize, new_y_usize, new_direction), pos_mem) {
                     pos_mem.insert((new_x_usize, new_y_usize));
                     is_found_answer = true;
                 }
@@ -209,7 +209,7 @@ fn part_two(input: String) -> String {
         for j in 0..max_y {
             if board[i][j] == BoardState::GOAL {
                 for direction in 0..4 {
-                    backtrack_to_end(&result, (i, j, direction), &mut pos_mem);
+                    backtrack_to_start(&result, (i, j, direction), &mut pos_mem);
                 }
                 break;
             }
